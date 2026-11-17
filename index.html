@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#172554">
+<title>٣٠ يوم بداية جديدة</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--gold:#f4c96b;--ink:#172033;--muted:#64748b;--paper:#fff;--bg:#f3f6fc}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(160deg,#eaf0ff,#f9f7f0 65%,#fff);color:var(--ink);min-height:100vh}
+header{background:linear-gradient(135deg,#172554,#1e40af);color:white;padding:34px 18px 42px;text-align:center;border-radius:0 0 30px 30px}
+.kicker{font-size:13px;letter-spacing:.4px;color:#dbeafe}
+h1{font-size:clamp(25px,6vw,38px);margin:12px 0 8px}
+header p{margin:0;color:#e0eaff;font-size:15px;line-height:1.8}
+.verse-top{display:inline-block;margin-top:18px;padding:10px 16px;border:1px solid #ffffff55;border-radius:14px;color:#fff;font-weight:bold}
+main{width:min(900px,calc(100% - 28px));margin:-20px auto 40px;position:relative}
+.panel{background:var(--paper);border-radius:22px;padding:20px;box-shadow:0 12px 35px #1e3a8a12}
+.instruction{text-align:center;color:var(--muted);font-size:14px;margin:2px 0 18px}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.day{border:1px solid #dbe4f5;background:#f8faff;color:var(--navy);border-radius:14px;min-height:66px;font: bold 15px Tahoma,Arial;cursor:pointer;transition:.18s}
+.day span{display:block;font-size:11px;color:#64748b;font-weight:normal;margin-top:5px}
+.day:hover,.day:focus-visible{background:#e8efff;border-color:#7397e8;outline:2px solid #7397e855;transform:translateY(-1px)}
+.day[aria-pressed="true"]{background:var(--navy);color:white;border-color:var(--navy)}
+.day[aria-pressed="true"] span{color:#dbeafe}
+.detail{display:none;margin-top:18px;padding:22px;border-radius:18px;background:linear-gradient(145deg,#f8faff,#fffdf6);border:1px solid #e4eaf6;animation:show .25s ease}
+.detail.visible{display:block}
+@keyframes show{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.date{font-size:18px;font-weight:bold;color:var(--blue);margin:0 0 14px}
+.encourage{font-size:17px;line-height:2;margin:0 0 18px}
+.encourage strong{color:#173b8c}
+.task{background:#fff;border-right:4px solid var(--gold);padding:14px 15px;border-radius:12px;line-height:1.9;margin-bottom:16px}
+.task small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.scripture{background:#eef4ff;border-radius:12px;padding:15px;line-height:1.9}
+.scripture small{display:block;color:#36569b;font-weight:bold;margin-bottom:4px}
+.scripture p{margin:0}
+footer{text-align:center;color:#64748b;font-size:12px;padding:0 15px 28px;line-height:1.8}
+@media(max-width:560px){.days{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.day{min-height:62px;font-size:14px}.panel{padding:14px}.detail{padding:17px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">رحلة صغيرة كل يوم</div>
+  <h1>٣٠ يوم بداية جديدة</h1>
+  <p>كل يوم فرصة تكتشف حاجة حلوة جواك،<br>وتتعلم تعيشها مع ربنا.</p>
+  <div class="verse-top">«هُوَذَا الْكُلُّ قَدْ صَارَ جَدِيدًا»<br>٢ كورنثوس ٥: ١٧</div>
+</header>
+<main>
+  <section class="panel" aria-label="أيام شهر يناير">
+    <p class="instruction">اختار يومًا واضغط عليه عشان تكتشف تحدي اليوم 🌟</p>
+    <div class="days" id="days"></div>
+    <section class="detail" id="detail" aria-live="polite">
+      <p class="date" id="date"></p>
+      <p class="encourage">عاوز أقولك إنك شخص جميل جدًا حقيقي وموهوب، وعندك حاجات كتير حلوة تعالى نكتشفها مع بعض، ونتدرب النهارده على:</p>
+      <div class="task"><small>تحدي النهارده</small><strong id="task"></strong></div>
+      <div class="scripture"><small>آية من الكتاب المقدس</small><p id="verse"></p></div>
+    </section>
+  </section>
+</main>
+<footer>الموقع للقراءة والتشجيع فقط — مفيش تسجيل أو كتابة أو إرسال بيانات.</footer>
+<script>
+const items = [
+["نصلي لربنا من قلبنا، ونحكيله عن يومنا.","«صَلُّوا بِلاَ انْقِطَاعٍ» — ١ تسالونيكي ٥: ١٧"],
+["نساعد بابا في حاجة من غير ما يطلب مننا.","«أَكْرِمْ أَبَاكَ وَأُمَّكَ» — أفسس ٦: ٢"],
+["نساعد ماما في ترتيب حاجة في البيت.","«بِالْمَحَبَّةِ اخْدِمُوا بَعْضُكُمْ بَعْضًا» — غلاطية ٥: ١٣"],
+["نرسم رسمة جميلة ونهديها لشخص بنحبه.","«كُلُّ مَا تَفْعَلُونَهُ، فَاعْمَلُوا مِنَ الْقَلْبِ» — كولوسي ٣: ٢٣"],
+["نقول كلمة حلوة لشخص محتاج يتشجع.","«لِيَكُنْ كَلاَمُكُمْ كُلَّ حِينٍ بِنِعْمَةٍ» — كولوسي ٤: ٦"],
+["نشارك لعبة أو حاجة بنحبها مع غيرنا.","«مُعْطِينَ بِسُرُورٍ» — ٢ كورنثوس ٩: ٧"],
+["نقول لربنا شكرًا على ٣ حاجات حلوة في حياتنا.","«اشْكُرُوا فِي كُلِّ شَيْءٍ» — ١ تسالونيكي ٥: ١٨"],
+["نسمع كلام اللي بيكلمنا من غير ما نقاطعه.","«لِيَكُنْ كُلُّ إِنْسَانٍ مُسْرِعًا فِي الاسْتِمَاعِ» — يعقوب ١: ١٩"],
+["نرتب سريرنا أو مكتبنا بنفسنا.","«كُلُّ شَيْءٍ بِلِيَاقَةٍ وَبِحَسَبِ تَرْتِيبٍ» — ١ كورنثوس ١٤: ٤٠"],
+["نقرأ جزءًا صغيرًا من الإنجيل ونفكر في معناه.","«سِرَاجٌ لِرِجْلِي كَلاَمُكَ وَنُورٌ لِسَبِيلِي» — مزمور ١١٩: ١٠٥"],
+["نلعب مع حد غالبًا بيقعد لوحده.","«أَحِبُّوا بَعْضُكُمْ بَعْضًا» — يوحنا ١٣: ٣٤"],
+["لو غلطنا، نعترف بالغلط ونعتذر.","«اعْتَرِفُوا بَعْضُكُمْ لِبَعْضٍ بِالزَّلاَّتِ» — يعقوب ٥: ١٦"],
+["نحافظ على وعد قطعناه.","«لِيَكُنْ كَلاَمُكُمْ نَعَمْ نَعَمْ، لاَ لاَ» — متى ٥: ٣٧"],
+["نساعد شخصًا من غير ما نستنى مكافأة.","«مَغْبُوطٌ هُوَ الْعَطَاءُ أَكْثَرُ مِنَ الأَخْذِ» — أعمال ٢٠: ٣٥"],
+["نحاول نتحكم في غضبنا ونفكر قبل ما نرد.","«بَطِيءُ الْغَضَبِ كَثِيرُ الْفَهْمِ» — أمثال ١٤: ٢٩"],
+["نحافظ على نظافة المكان اللي بنستخدمه.","«كُلُّ شَيْءٍ طَاهِرٌ لِلأَطِهَرَاءِ» — تيطس ١: ١٥"],
+["نشجع صاحبنا لما يحاول حتى لو ما نجحش.","«شَدِّدُوا الأَيْدِيَ الْمُسْتَرْخِيَةَ» — عبرانيين ١٢: ١٢"],
+["نخصص وقتًا نلعب فيه مع إخواتنا بمحبة.","«مُحْتَمِلِينَ بَعْضُكُمْ بَعْضًا فِي الْمَحَبَّةِ» — أفسس ٤: ٢"],
+["نقول الحقيقة حتى لو كان الاعتراف صعبًا.","«اطْرَحُوا عَنْكُمُ الْكَذِبَ» — أفسس ٤: ٢٥"],
+["نكتشف موهبة عندنا ونتدرب عليها شوية.","«لِيَكُنْ كُلُّ وَاحِدٍ بِحَسَبِ مَا أَخَذَ مَوْهِبَةً» — ١ بطرس ٤: ١٠"],
+["نصالح شخصًا بيننا وبينه زعل.","«طُوبَى لِصَانِعِي السَّلاَمِ» — متى ٥: ٩"],
+["نعتني بحاجة ربنا خلقها: زرعة أو حيوان أو مكان.","«وَأَخَذَ الرَّبُّ الإِلَهُ آدَمَ وَوَضَعَهُ فِي جَنَّةِ عَدْنٍ لِيَعْمَلَهَا وَيَحْفَظَهَا» — تكوين ٢: ١٥"],
+["ننجز مسؤولية صغيرة علينا من غير تأجيل.","«الأَمِينُ فِي الْقَلِيلِ أَمِينٌ أَيْضًا فِي الْكَثِيرِ» — لوقا ١٦: ١٠"],
+["نصلي من أجل شخص محتاج أو تعبان.","«صَلُّوا بَعْضُكُمْ لأَجْلِ بَعْضٍ» — يعقوب ٥: ١٦"],
+["نستقبل يومنا بابتسامة وكلمة سلام.","«فَلْيَكُنْ سَلاَمُ اللهِ... حَاكِمًا فِي قُلُوبِكُمْ» — كولوسي ٣: ١٥"],
+["نعتذر ونحاول نصلح الحاجة اللي بوظناها.","«كُونُوا لُطَفَاءَ بَعْضُكُمْ نَحْوَ بَعْضٍ» — أفسس ٤: ٣٢"],
+["نستخدم وقتنا في حاجة مفيدة بدل ما نضيعه كله.","«مُفْتَدِينَ الْوَقْتَ» — أفسس ٥: ١٦"],
+["نقول لحد في البيت: إيه أكتر حاجة أقدر أساعدك فيها؟","«لاَ تَنْظُرُوا كُلُّ وَاحِدٍ إِلَى مَا هُوَ لِنَفْسِهِ» — فيلبي ٢: ٤"],
+["نفتكر حاجة ربنا ساعدنا فيها ونشكره عليها.","«بَارِكِي يَا نَفْسِي الرَّبَّ وَلاَ تَنْسَيْ كُلَّ حَسَنَاتِهِ» — مزمور ١٠٣: ٢"],
+["نختار عادة حلوة نكمل عليها مع ربنا بعد الشهر ده.","«اثْبُتُوا فِيَّ وَأَنَا فِيكُمْ» — يوحنا ١٥: ٤"];
+const days = document.getElementById('days');
+const detail = document.getElementById('detail');
+const dateEl = document.getElementById('date');
+const taskEl = document.getElementById('task');
+const verseEl = document.getElementById('verse');
+items.forEach((item,i)=>{
+  const b=document.createElement('button');
+  b.className='day'; b.type='button'; b.setAttribute('aria-pressed','false');
+  b.innerHTML=`اليوم ${i+1}<span>${i+1} يناير</span>`;
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.day').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    dateEl.textContent=`النهارده يوم ${i+1} يناير 2027`;
+    taskEl.textContent=item[0];
+    verseEl.textContent=item[1];
+    detail.classList.add('visible');
+    detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  days.appendChild(b);
+});
+</script>
+</body>
+</html>
